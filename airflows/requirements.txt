@@ -1,0 +1,10 @@
+apache-airflow[apache.spark,password,influxdb,sentry,discord,virtualenv,async]==2.3.1 --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.3.1/constraints-3.10.txt"
+apache-airflow-providers-discord[http]
+pandas
+argcomplete
+pycurl
+concurrent-log-handler
+apache-airflow-client
+loguru
+airflow-code-editor
+awswrangler

@@ -1,0 +1,33 @@
+# https://airflow.apache.org/docs/apache-airflow/stable/start/local.html
+# apache-airflow must install it manually ...
+# read more in RUN_LOCALLY.sh script
+[tool.poetry]
+name = "data_airflow"
+version = "1.0.0"
+description = "This repo stores the codes related to Airflow like Dags, Task and respective scripts."
+authors = ["sofia <sofia@escobedo.mx>"]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.11"
+paramiko = "^2.10.4"
+httplib2 = "^0.20.4"
+loguru = "^0.6.0"
+exceptiongroup = "^1.0.0-rc.7"
+pandas = "^1.4.2"
+apache-airflow-client = "^2.2.0"
+virtualenv = "^20.14.1"
+apache-airflow = {extras = ["apache.spark", "password", "influxdb", "sentry", "discord", "virtualenv", "async"], version = "^2.3.2"}
+airflow-code-editor = "^5.2.1"
+black = "^22.3.0"
+argcomplete = "^2.0.0"
+concurrent-log-handler = "^0.9.20"
+apache-airflow-providers-discord = {extras = ["http"], version = "^3.0.0"}
+awswrangler = "^2.15.1"
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.1.2"
+black = "^22.3.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
