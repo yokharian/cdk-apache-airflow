@@ -1,36 +1,42 @@
-# Data Airflow
+# CDK Apache Airflow
 
-[TUTORIALS](https://github.com/mikeroyal/Apache-Airflow-Guide)
+![Architecture](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/yokharian/cdk-apache-airflow/master/diagram.puml)
 
-![airflow_cheap.svg](assets/airflow_cheap.svg)
+AWS CDK infrastructure for running Apache Airflow on ECS with EFS shared storage, RDS PostgreSQL, custom S3 XCom backend, and automated DAG deployment via GitHub Actions.
 
-### External projects that would be awesome to implement
+## Tech Stack
 
-1. [Flower UI](https://appliku.com/post/celery-flower)
-2. [Whirl](https://github.com/godatadriven/whirl)
-3. [Elyra ! (data science)](https://github.com/elyra-ai/elyra)
-4. [ZenML ! (data science)](https://github.com/zenml-io/zenml)
-5. [Medium - Custom ui for airflow](https://medium.com/@caxefaizan/creating-custom-ui-for-airflow-7021c851631c)
-6. [TAC - help to boilerplate](https://github.com/vipul-tm/TAC-Airflow-Plugin)
-7. [X-tended api](https://github.com/anr007/airflow-xtended-api#create_dag)
-8. [Logs to Cloudwatch](https://airflow.apache.org/docs/apache-airflow-providers-amazon/3.1.1/logging/cloud-watch-task-handlers.html)
+- **Infrastructure**: AWS CDK (Python)
+- **Compute**: AWS ECS on EC2 with auto-scaling capacity providers
+- **Storage**: Amazon EFS (shared DAGs/plugins), Amazon S3 (logs + XCom)
+- **Database**: Amazon RDS PostgreSQL
+- **Networking**: Application Load Balancer, Route53, ACM (SSL)
+- **Orchestration**: Apache Airflow 2.3 with CeleryExecutor + SQS broker
+- **CI/CD**: GitHub Actions + DataSync
 
-### Data lineage that would be awesome to implement
+## How It Works
 
-1. [Datahub.io](https://datahubproject.io/)
-2. [Databand.ai](https://databand.ai/)
-3. [Marquez](https://marquezproject.github.io/marquez/)
-4. [Atlan](https://atlan.com/) & [Plugin](https://github.com/atlanhq/atlan-lineage-airflow)
+1. Developer pushes DAGs to GitHub; GitHub Actions syncs them to EFS via DataSync
+2. Airflow Scheduler polls EFS for DAGs and queues tasks on SQS
+3. Celery Workers execute tasks; large XCom results are stored in S3 (Parquet/JSON)
+4. Logs stream to S3; Airflow UI is accessible via ALB with SSL and Route53 DNS
+5. Workers auto-scale on CPU/memory utilization via ECS capacity providers
 
-### Amazing operators that would be awesome to implement
+## Features
 
-1. [EcsOperator](https://airflow.apache.org/docs/apache-airflow-providers-amazon/stable/operators/ecs.html)
-2. [AwsLambdaInvokeFunctionOperator](https://airflow.apache.org/docs/apache-airflow-providers-amazon/stable/operators/lambda.html)
-   1. you can use it unless it doesn't matter if you don't get a response from xcom
-3. KinesisOperator (not found, create it manually)
-4. [FirehoseHook](https://airflow.apache.org/docs/apache-airflow-providers-amazon/stable/_api/airflow/providers/amazon/aws/hooks/kinesis/index.html)
+- Separate ECS task definitions for webserver/scheduler and worker
+- EFS shared filesystem keeps DAGs in sync across all containers
+- Custom S3 XCom backend for DataFrames and large payloads
+- Worker auto-scaling (1-2 tasks) on CPU/memory thresholds
+- S3 log storage with lifecycle rules (IA after 30 days)
+- HTTPS with ACM certificate and Route53 public/private DNS
+- GitHub Actions CI/CD for zero-downtime DAG deployment
 
-# RULES
+## Architecture
 
-1. [Avoid Using Operators](https://medium.com/bluecore-engineering/were-all-using-airflow-wrong-and-how-to-fix-it-a56f14cb0753), 
-Only PythonVirtualEnvOperator is accepted.
+See [diagram.puml](./diagram.puml) for system architecture.
+
+## References
+
+- [PRD](./prd.md)
+- Blog post: [Scalable ETL Pipelines](https://yokharian.dev/posts/apache-airflow-architecture-design)

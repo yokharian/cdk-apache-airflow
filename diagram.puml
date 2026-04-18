@@ -1,0 +1,49 @@
+@startuml CDK Apache Airflow
+!theme sketchy-outline
+skinparam componentStyle rectangle
+
+actor "Developer" as dev
+participant "GitHub\nActions" as ci
+participant "AWS\nDataSync" as datasync
+database "EFS\n(DAGs &\nPlugins)" as efs
+participant "Airflow\nWebserver" as web
+participant "Airflow\nScheduler" as sched
+participant "Airflow\nWorker" as worker
+database "RDS\nPostgreSQL" as rds
+database "S3\n(XCom &\nLogs)" as s3
+participant "Application\nLoad Balancer" as alb
+participant "Route53\nDNS" as dns
+
+== DAG Deployment ==
+
+dev -> ci: Push DAGs to\nGitHub repository
+ci -> datasync: Sync DAGs\nto EFS
+datasync -> efs: Write DAG files
+
+== Airflow Execution ==
+
+sched -> efs: Poll DAGs\n(every 15s/600s)
+efs --> sched: DAG definitions
+sched -> rds: Store task\nmetadata
+rds --> sched: Task state
+
+sched -> worker: Queue task\n(via SQS)
+worker -> efs: Read DAG code\n& plugins
+worker -> s3: Store XCom\n(Parquet/JSON)
+worker -> s3: Stream logs
+
+== Web UI Access ==
+
+web -> efs: Load DAG files
+web -> rds: Read task\nstatus
+alb -> web: Route HTTPS\ntraffic (port 443)
+dns -> alb: Resolve\ndomain name
+web -> alb: Health check\n(/health)
+
+note right of worker
+  Worker auto-scales
+  on CPU/memory
+  utilization
+end note
+
+@enduml
