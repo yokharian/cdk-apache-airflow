@@ -1,6 +1,6 @@
 # CDK Apache Airflow
 
-![Architecture](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/yokharian/cdk-apache-airflow/master/diagram.puml)
+![airflow_cheap.svg](assets/airflow_cheap.svg)
 
 AWS CDK infrastructure for running Apache Airflow on ECS with EFS shared storage, RDS PostgreSQL, custom S3 XCom backend, and automated DAG deployment via GitHub Actions.
 
@@ -32,9 +32,10 @@ AWS CDK infrastructure for running Apache Airflow on ECS with EFS shared storage
 - HTTPS with ACM certificate and Route53 public/private DNS
 - GitHub Actions CI/CD for zero-downtime DAG deployment
 
-## Architecture
+## DAG submit procedure
 
-See [diagram.puml](./diagram.puml) for system architecture.
+![Architecture](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/yokharian/cdk-apache-airflow/master/diagram.puml)
+
 
 ## References
 
