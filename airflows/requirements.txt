@@ -1,4 +1,4 @@
-apache-airflow[apache.spark,password,influxdb,sentry,discord,virtualenv,async]==3.3.2 --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-2.3.1/constraints-3.10.txt"
+apache-airflow[apache.spark,password,influxdb,sentry,discord,virtualenv,async]==3.3.2 --constraint "https://raw.githubusercontent.com/apache/airflow/constraints-3.3.2/constraints-3.10.txt"
 apache-airflow-providers-discord[http]
 pandas
 argcomplete
