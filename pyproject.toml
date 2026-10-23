@@ -25,7 +25,7 @@ apache-airflow-providers-discord = {extras = ["http"], version = "^3.0.0"}
 awswrangler = "^2.15.1"
 
 [tool.poetry.dev-dependencies]
-pytest = "^7.1.2"
+pytest = "^8.3.5"
 black = "^22.3.0"
 
 [build-system]
