@@ -1,6 +1,8 @@
-FROM public.ecr.aws/vedrai-dev/vedrai-python-builder:1.1.12-3.10
+FROM python:3.10.22-bookworm
 
-ENV PATH=$PATH:/home/user/.local/bin \
+RUN useradd --create-home --uid 1000 user
+
+ENV PATH=/home/user/.local/bin:$PATH \
     PIP_NO_CACHE_DIR=off \
     PIP_QUIET=1 \
     PIP_USER=1 \
@@ -11,7 +13,10 @@ ENV PATH=$PATH:/home/user/.local/bin \
 	PYTHONHASHSEED=random \
 	PIP_DISABLE_PIP_VERSION_CHECK=on
 
-COPY ./default-requirements.txt /tmp/requirements.txt
+USER user
+WORKDIR /home/user
+
+COPY --chown=user:user ./default-requirements.txt /tmp/requirements.txt
 RUN pip install -r /tmp/requirements.txt
 
 #CMD ["python","/shared-volume/git_repo/dags/yokharian/send_email/email_dag.py", '10']
