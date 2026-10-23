@@ -19,7 +19,7 @@ virtualenv = "^20.14.1"
 apache-airflow = {extras = ["apache.spark", "password", "influxdb", "sentry", "discord", "virtualenv", "async"], version = "^2.3.2"}
 airflow-code-editor = "^5.2.1"
 black = "^22.3.0"
-argcomplete = "^2.0.0"
+argcomplete = ">=2,<4"
 concurrent-log-handler = "^0.9.20"
 apache-airflow-providers-discord = {extras = ["http"], version = "^3.0.0"}
 awswrangler = "^2.15.1"
