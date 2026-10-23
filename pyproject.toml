@@ -9,7 +9,7 @@ authors = ["sofia <sofia@escobedo.mx>"]
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.11"
-paramiko = "^2.10.4"
+paramiko = ">=2.10.4,<4.0.0"
 httplib2 = ">=0.20.4,<0.33.0"
 loguru = ">=0.6,<0.8"
 exceptiongroup = "^1.0.0-rc.7"
