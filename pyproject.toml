@@ -18,7 +18,7 @@ apache-airflow-client = "^2.2.0"
 virtualenv = ">=20.14.1,<22.0.0"
 apache-airflow = {extras = ["apache.spark", "password", "influxdb", "sentry", "discord", "virtualenv", "async"], version = "^2.3.2"}
 airflow-code-editor = "^5.2.1"
-black = "^22.3.0"
+black = ">=22.3,<25.0"
 argcomplete = ">=2,<4"
 concurrent-log-handler = "^0.9.20"
 apache-airflow-providers-discord = {extras = ["http"], version = "^3.0.0"}
@@ -26,7 +26,7 @@ awswrangler = ">=2.15.1,<4.0.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^8.3.5"
-black = "^22.3.0"
+black = "^24.8.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
