@@ -1,7 +1,7 @@
 # https://github.com/apache/airflow/blob/main/Dockerfile
 # the following parameters are registered by the "apache/airflow" dockerfile
 # AIRFLOW_HOME=/opt/airflow
-FROM apache/airflow:2.3.1-python3.10
+FROM apache/airflow:3.3.2-python3.10
 
 USER root
 
