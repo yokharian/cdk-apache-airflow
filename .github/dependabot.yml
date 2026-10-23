@@ -1,0 +1,27 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directories:
+      - "/"
+      - "/airflows"
+      - "/stack"
+    schedule:
+      interval: weekly
+      day: monday
+    groups:
+      minor-and-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+    open-pull-requests-limit: 10
+
+  - package-ecosystem: "docker"
+    directories:
+      - "/"
+      - "/dags/**"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
