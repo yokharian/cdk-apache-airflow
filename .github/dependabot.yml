@@ -1,27 +1,14 @@
 version: 2
 updates:
-  - package-ecosystem: "pip"
-    directories:
-      - "/"
-      - "/airflows"
-      - "/stack"
-    schedule:
-      interval: weekly
-      day: monday
-    groups:
-      minor-and-patch:
-        patterns:
-          - "*"
-        update-types:
-          - "minor"
-          - "patch"
-    open-pull-requests-limit: 10
-
   - package-ecosystem: "docker"
-    directories:
-      - "/"
-      - "/dags/**"
-    schedule:
-      interval: weekly
-      day: monday
+    directory: "/"
+    schedule: { interval: "weekly", day: "monday" }
+    cooldown: { default-days: 7, semver-major-days: 30 }
+    groups:
+      minor-and-patch: { patterns: ["*"], update-types: ["minor", "patch"] }
     open-pull-requests-limit: 5
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule: { interval: "weekly" }
+
